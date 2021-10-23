@@ -11,16 +11,13 @@ function Sammy(selector, initFn) {
         },
         redirect(path) {
             currentPath = path;
-            this.render();
-        },
-        render() {
             const pathObj = pathCollection.find(i => i.path === currentPath);
             if (!pathObj) {
                 console.error(`body 404 Not found get ${currentPath}`);
                 return;
             }
             pathObj.fn();
-        }
+        },
     }
 
     const app = {
