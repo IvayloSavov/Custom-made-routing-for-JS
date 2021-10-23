@@ -1,5 +1,6 @@
 // Factory function
 function Sammy(selector, initFn) {
+    const mainEl = document.querySelector(selector);
 
     const pathCollection = [];
     let currentPath;
@@ -16,16 +17,16 @@ function Sammy(selector, initFn) {
                 console.error(`body 404 Not found get ${currentPath}`);
                 return;
             }
-            pathObj.fn();
+            pathObj.fn.call(core);
         },
         swap(htmlcontent) {
-
+            mainEl.innerHtml = htmlcontent;
         },
     }
 
     const app = {
         run(path) {
-            initFn.call();
+            initFn.call(core);
             core.redirect(path);
         }
     };
@@ -36,7 +37,14 @@ function Sammy(selector, initFn) {
 }
 
 const app = Sammy("#main", function (params) {
+    this.get("/", function name(params) {
+        this.swap(`Home page`);
+    })
 
+    this.get('/about', function () {
+        this.swap('About page');
+        
+    })
 })
 app.run('/')
 
