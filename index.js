@@ -18,6 +18,9 @@ function Sammy(selector, initFn) {
             }
             pathObj.fn();
         },
+        swap(htmlcontent) {
+
+        },
     }
 
     const app = {
