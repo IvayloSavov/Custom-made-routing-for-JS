@@ -8,7 +8,8 @@ function Sammy(selector, initFn) {
     // Observer pattern
     const core = {
         get(path, fn) {
-            pathCollection.push({ path, fn });
+            const matchFn = match(path, { decode: decodeURIComponent });
+            getPathCollection.push({ path, fn, matchFn });
         },
         redirect(path) {
             currentPath = path;
@@ -43,7 +44,7 @@ const app = Sammy("#main", function (params) {
 
     this.get('/about', function () {
         this.swap('About page');
-        
+
     })
 })
 app.run('/')
