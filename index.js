@@ -15,6 +15,11 @@ function Sammy(selector, initFn) {
             const matchFn = match(path, { decode: decodeURIComponent });
             postPathCollection.push({ path, fn, matchFn });
         },
+        load(url) {
+            return fetch(url).then(res => {
+                return res.json();
+            });
+        },
         redirect(path) {
             currentPath = path;
             const pathObj = pathCollection.find(i => i.path === currentPath);
