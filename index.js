@@ -37,8 +37,10 @@ function Sammy(selector, initFn) {
 
             setupAnchorHandlers();
         },
-        swap(htmlcontent) {
-            mainEl.innerHtml = htmlcontent;
+        swap(htmlContent) {
+            mainEl.innerHTML = htmlContent;
+            setTimeout(setupAnchorHandlers, 0);
+            setTimeout(() => setupFormSubmissionHandlers(this._formSubmissionHandle), 0);
         },
     }
 
