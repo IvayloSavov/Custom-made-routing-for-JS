@@ -42,7 +42,24 @@ function Sammy(selector, initFn) {
             setTimeout(setupAnchorHandlers, 0);
             setTimeout(() => setupFormSubmissionHandlers(this._formSubmissionHandle), 0);
         },
-    }
+        _formSubmissionHandle(e) {
+            e.preventDefault();
+            const target = e.target;
+            if (target.method.toLowerCase() !== 'post') { return; }
+            let params;
+            const pathObj = postPathCollection.find(i => {
+              const path = target.action.replace(location.protocol + '//' + location.host, '');;
+              const data = i.matchFn(path);
+              if (data) { params = data.params; }
+              return !!data;
+            });
+            if (!pathObj) {
+              console.error(`body 404 Not Found post ${target.action}`);
+              return;
+            }
+            pathObj.fn.call(core, { params, form: target });
+          }
+        };
 
     const app = {
         run(path) {
