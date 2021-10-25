@@ -22,12 +22,20 @@ function Sammy(selector, initFn) {
         },
         redirect(path) {
             currentPath = path;
-            const pathObj = pathCollection.find(i => i.path === currentPath);
+            let params;
+            const pathObj = getPathCollection.find(i => {
+                const data = i.matchFn(currentPath);
+                if (data) { params = data.params; }
+                return !!data;
+            });
+
             if (!pathObj) {
-                console.error(`body 404 Not found get ${currentPath}`);
+                console.error(`body 404 Not Found get ${currentPath}`);
                 return;
             }
-            pathObj.fn.call(core);
+            pathObj.fn.call(core, { params });
+
+            setupAnchorHandlers();
         },
         swap(htmlcontent) {
             mainEl.innerHtml = htmlcontent;
