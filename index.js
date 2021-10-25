@@ -1,8 +1,9 @@
+import { match } from './node_modules/path-to-regexp/dist.es2015/index.js';
 // Factory function
 function Sammy(selector, initFn) {
     const mainEl = document.querySelector(selector);
-
-    const pathCollection = [];
+    const getPathCollection = [];
+    const postPathCollection = [];
     let currentPath;
 
     // Observer pattern
