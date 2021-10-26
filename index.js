@@ -22,6 +22,16 @@ function Sammy(selector, initFn) {
         });
     }
 
+    function setupAnchorHandlers() {
+        Array.from(document.querySelectorAll('a')).forEach(
+          i => {
+            if (i.hasAttribute('data-has-handler')) { return; }
+            i.addEventListener('click', onAnchorClickHandler);
+            i.setAttribute('data-has-handler', true);
+          }
+        );
+      }
+
     // Observer pattern
     const core = {
         get(path, fn) {
