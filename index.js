@@ -12,7 +12,15 @@ function Sammy(selector, initFn) {
         const path = target.getAttribute('href');
         core.redirect(path);
         window.history.pushState(null, '', path);
-      };
+    };
+
+    function setupFormSubmissionHandlers(cb) {
+        Array.from(document.querySelectorAll('form')).forEach(f => {
+            if (f.hasAttribute('data-has-handler')) { return; }
+            f.addEventListener('submit', cb);
+            f.setAttribute('data-has-handler', true);
+        });
+    }
 
     // Observer pattern
     const core = {
@@ -57,18 +65,18 @@ function Sammy(selector, initFn) {
             if (target.method.toLowerCase() !== 'post') { return; }
             let params;
             const pathObj = postPathCollection.find(i => {
-              const path = target.action.replace(location.protocol + '//' + location.host, '');;
-              const data = i.matchFn(path);
-              if (data) { params = data.params; }
-              return !!data;
+                const path = target.action.replace(location.protocol + '//' + location.host, '');;
+                const data = i.matchFn(path);
+                if (data) { params = data.params; }
+                return !!data;
             });
             if (!pathObj) {
-              console.error(`body 404 Not Found post ${target.action}`);
-              return;
+                console.error(`body 404 Not Found post ${target.action}`);
+                return;
             }
             pathObj.fn.call(core, { params, form: target });
-          }
-        };
+        }
+    };
 
     const app = {
         run(path) {
