@@ -6,6 +6,14 @@ function Sammy(selector, initFn) {
     const postPathCollection = [];
     let currentPath;
 
+    function onAnchorClickHandler(e) {
+        e.preventDefault();
+        const target = e.target;
+        const path = target.getAttribute('href');
+        core.redirect(path);
+        window.history.pushState(null, '', path);
+      };
+
     // Observer pattern
     const core = {
         get(path, fn) {
