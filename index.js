@@ -24,13 +24,21 @@ function Sammy(selector, initFn) {
 
     function setupAnchorHandlers() {
         Array.from(document.querySelectorAll('a')).forEach(
-          i => {
-            if (i.hasAttribute('data-has-handler')) { return; }
-            i.addEventListener('click', onAnchorClickHandler);
-            i.setAttribute('data-has-handler', true);
-          }
+            i => {
+                if (i.hasAttribute('data-has-handler')) { return; }
+                i.addEventListener('click', onAnchorClickHandler);
+                i.setAttribute('data-has-handler', true);
+            }
         );
-      }
+    }
+
+    function setupListeners() {
+        setupAnchorHandlers();
+
+        window.addEventListener('popstate', function () {
+            core.redirect(window.location.pathname);
+        });
+    }
 
     // Observer pattern
     const core = {
@@ -90,14 +98,14 @@ function Sammy(selector, initFn) {
 
     const app = {
         run(path) {
-            initFn.call(core);
-            core.redirect(path);
+          setupListeners();
+          initFn.call(core);
+    
+          core.redirect(path);
         }
-    };
-
-
-
-    return app;
+      };
+    
+      return app;
 }
 
 const app = Sammy("#main", function (params) {
