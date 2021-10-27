@@ -1,2 +1,2 @@
-# Custom made routing framework for JS
+# Custom made routing for JavaScript
  
