@@ -1,0 +1,24 @@
+{
+  "name": "custom-made-routing-framework-for-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "ws --spa index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IvayloSavov/Custom-made-routing-for-JS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IvayloSavov/Custom-made-routing-for-JS/issues"
+  },
+  "dependencies": {
+    "local-web-server": "^4.2.1",
+    "path-to-regexp": "^6.1.0"
+  },
+  "homepage": "https://github.com/IvayloSavov/Custom-made-routing-for-JS#readme"
+}
