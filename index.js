@@ -98,25 +98,48 @@ function Sammy(selector, initFn) {
 
     const app = {
         run(path) {
-          setupListeners();
-          initFn.call(core);
-    
-          core.redirect(path);
+            setupListeners();
+            initFn.call(core);
+
+            core.redirect(path);
         }
-      };
-    
-      return app;
+    };
+
+    return app;
 }
 
-const app = Sammy("#main", function (params) {
-    this.get("/", function name(params) {
-        this.swap(`Home page`);
-    })
+const app = Sammy('#main', function () {
+    this.get('/', function () {
+        const ul = document.createElement('ul');
+        this.load('https://jsonplaceholder.typicode.com/users').then(users => {
+            users.forEach(user => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = `/user/${user.id}`;
+                a.textContent = user.email;
+                li.appendChild(a);
+                ul.appendChild(li);
+            });
+            const homePage = `${ul.outerHTML} <form method="delete" action="/test"><input name="name" value="" /><button>Save</button></form>`
+            this.swap(homePage);
+        });
+    });
+
+    this.post('/test', function (context) {
+        console.log(context);
+
+    });
+
+    this.get('/user/:id', function (context) {
+        this.swap('<div>Loading...</div>');
+        this.load(`https://jsonplaceholder.typicode.com/users/${context.params.id}`)
+            .then(user => { this.swap(`<h1>${user.email}</h1>`); });
+    });
 
     this.get('/about', function () {
-        this.swap('About page');
+        this.swap('<h1>ABOUT PAGE</h1>');
+    });
+});
 
-    })
-})
 app.run('/')
 
